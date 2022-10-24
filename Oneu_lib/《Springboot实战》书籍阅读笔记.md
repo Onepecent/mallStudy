@@ -85,4 +85,54 @@ public class Book{
 
 #### 2.定义仓库接口
 
+这里使用的是SpringJPA，所以要做的就是简单地定义一个接口，扩展一下SpringDateJPA的`JpaRepository`接口：
+
+```java
+public interface ReadingListRepository extends JpaRepository<Book,Long>{//<Book,Long>仓库操作的领域对象类型，以及ID属性的类型
+    List<Book> findByReader(String reader);
+}
+```
+
+通过扩展JpaRepository，ReadingListRepository直接继承了18个执行常用持久化操作的方法。Jparepository是个泛型接口，有两个参数：仓库操作的领域对象类型，以及ID属性的类型
+
 #### 3.创建Web界面
+
+定义好了应用程序的领域模型，还有把领域对象持久化到数据库里的仓库接口，剩下的就是创建`Web前端`了。
+
+SpringMVC中的`控制器`就能为应用程序处理HTTP请求。
+
+```java
+@Controller
+@RequestMapping("/readingList")
+public class ReadingController{
+    private ReadingListRepository readingListRepository;
+    
+    @Autowired
+    public ReadingListController(ReadingListRepository readingListRepository){
+        this.readingListRepository = readingListRepository;
+    }
+    
+    @RequestMapping(value="/{reader}", method=RequestMethod.GET)
+    public String readersBooks(@PathVariable("read") String reader, Model model){
+        List<Book> readingList = readingListRepository.findByReader(reader);
+        if(readingList != null){
+            model.addAttribute("books",readingList);
+        }
+        return "readingList";
+    }
+    
+    @RequestMapping(value="/{reader}", method=RequestMethod.POST)
+    public String addToReadingList(@PathVariable("reader") String reader, Book book){
+        book.setReader(reader);
+        readingListRepository.save(book);
+        return "redirect:/readingList/{reader}";
+    }
+}
+```
+
+ 使用了@Controller注解，这样组件扫描会自动将其注册为Spring应用上下文里的一个Bean。
+
+#### 4.启动项目
+
+### 发生了什么？
+
