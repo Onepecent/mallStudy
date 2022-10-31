@@ -6,6 +6,8 @@
 
 [导出容器与导入容器快照](https://yeasy.gitbook.io/docker_practice/container/import_export)
 
+[使用docker直接拉取centos8镜像并运行，然后进行ssh链接](https://blog.csdn.net/ysh73145621/article/details/119703235)
+
 在window下安装docker时遇到：
 
 1.WSL 2 installation is incomplete.【BUG解决】【Docker之云原生基石】
