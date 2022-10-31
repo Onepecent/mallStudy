@@ -1,3 +1,7 @@
+现在linux中制作好环境，然后在制作成一个linux的image，然后在放到window上运行
+
+
+
 在window下安装docker时遇到：
 
 1.WSL 2 installation is incomplete.【BUG解决】【Docker之云原生基石】
